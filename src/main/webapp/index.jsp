@@ -12,9 +12,23 @@
 </head>
 <body>
 <h1>Simple Java Web App Demo</h1>
-<input type='file' />
+<script>
+    function updateSize() {
+        var nBytes = 0,
+            oFiles = document.querySelector('input[type="file"]').files,
+            nFiles = oFiles.length;
+        for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+            nBytes += oFiles[nFileId].size;
+        }
+        var sOutput = (nBytes/1000000).toFixed(3) + "MiB";
+        document.getElementById("fileSize").innerHTML = sOutput;
+    }
+</script>
+<input id="file" type='file' onchange=updateSize() />
 <br><img id="myImg" src="#" alt="your image" height=600 width=800>
-
+<p>
+    total size: <span id="fileSize">0</span>
+</p>
 <script type="text/javascript">
     window.addEventListener('load', function() {
         document.querySelector('input[type="file"]').addEventListener('change', function() {
@@ -22,6 +36,7 @@
                 var img = document.querySelector('img');  // $('img')[0]
                 img.src = URL.createObjectURL(this.files[0]); // set src to blob url
                 img.onload = imageIsLoaded;
+                
             }
         });
     });
@@ -31,6 +46,7 @@
         // update width and height ...
     }
 </script>
+
 <%--<p>To invoke the java servlet click <a href="Pixelizator">here</a></p>--%>
 </body>
 </html>

@@ -12,10 +12,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <%--    через 5 секунд переходит на страницу    --%>
     <%--        <meta http-equiv="refresh" content="5; URL=http://www.google.com">--%>
-    <title>Pizelizator</title>
+    <title>Pixelizator</title>
 </head>
 <body>
-<h1>Simple Java Web App Demo</h1>
+<h1>Pixelizator</h1>
 <script>
     function updateSize() {
         var nBytes = 0,
@@ -28,55 +28,43 @@
     }
 </script>
 
-<%--<form method="post" enctype="multipart/form-data">--%>
-<%--    Name: <input type="text" name="submit"/> <br/>--%>
-<%--    <button type="submit">send</button>--%>
-<%--<input id="file" type='file' name="photo" onchange=updateSize() />--%>
-<%--<br><img id="myImg" src="#" alt="your image" height=600 width=800>--%>
-<%--</form>--%>
-
-<form method="post" enctype="multipart/form-data" action="Pixelizator">
-    <input name="image" id="file" type="file" accept="image/*" onchange=updateSize()>
+    <input name="image" id="file" type='file' accept="image/*" enctype="multipart/form-data"/>
     <br>
-    <button type="submit">send</button>
+    <input name="text" id="fileUrl" type='text' />
+    <br>
+    <img id="Img" src="#" alt="your image" onchange=updateSize()>
+    <br>
+    <button type="submit">Pixelate</button>
 </form>
 
 <p>
     total size: <span id="fileSize">0</span>
 </p>
 
-<div class="row"><span id="output"></span></div>
 
 <script>
-    function showImage(evt) {
-        var file = evt.target.files; // FileList object
-        var f = file[0]
-        // Only process image files.
-        if (!f.type.match('image.*')) {
-            alert("Только изображения....");
-        }
-        var reader = new FileReader();
-        // Closure to capture the file information.
-        reader.onload = (function(theFile) {
-            return function(e) {
-                // Render thumbnail.
-                var span = document.createElement('span');
-                span.innerHTML = ['<img class="img-thumbnail" src="', e.target.result,
-                    '" title="', escape(theFile.name), '"/>'].join('');
-                document.getElementById('output').innerHTML = "";
-                document.getElementById('output').insertBefore(span, null);
-            };
-        })(f);
-        // Read in the image file as a data URL.
-        reader.readAsDataURL(f);
+    window.addEventListener('load', function() {
+        document.getElementById("file").addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                var img = document.getElementById("Img");  // $('img')[0]
+                img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+                img.onload = imageIsLoaded;
+            }
+        });
+        document.getElementById("fileUrl").addEventListener('change', function() {
+                var image = document.getElementById("Img");  // $('img')[0]
+                var downloadingImage = new Image();
+                downloadingImage.onload = function(){
+                    image.src = this.src;
+                };
+                downloadingImage.src = document.getElementById("fileUrl").value;
+        });
+    });
+
+    function imageIsLoaded() {
+        alert(this.src);  // blob url
+        // update width and height ...
     }
-    function reset(evt) {
-        var file = evt.target.files; // FileList object
-        var f = file[0];
-        f = "";
-    }
-    document.getElementById('file').addEventListener('change', showImage, false);
-    // document.getElementById('file').addEventListener('load', reset, false);
 </script>
 </body>
 </html>

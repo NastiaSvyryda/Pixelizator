@@ -25,7 +25,8 @@ public class MyServlet extends HttpServlet {
     private static final String SAVE_DIR = "uploadFiles";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                String fileName = null;
+        System.out.println("doPost\n\n");
+        String fileName = null;
         // gets absolute path of the web application
         String appPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
@@ -58,35 +59,35 @@ public class MyServlet extends HttpServlet {
             ImageIO.write(image, "jpg",new File(savePath + File.separator + fileName));
         }
 
-//        final int PIX_SIZE = 10;
-//// Read the file as an Image
-//        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
-//// Get the raster data (array of pixels)
-//        Raster src = img.getData();
-//// Create an identically-sized output raster
-//        WritableRaster dest = src.createCompatibleWritableRaster();
-//// Loop through every PIX_SIZE pixels, in both x and y directions
-//        for(int y = 0; y < src.getHeight(); y += PIX_SIZE) {
-//            for(int x = 0; x < src.getWidth(); x += PIX_SIZE) {
-//                // Copy the pixel
-//                double[] pixel = new double[3];
-//                pixel = src.getPixel(x, y, pixel);
-//                // "Paste" the pixel onto the surrounding PIX_SIZE by PIX_SIZE neighbors
-//                // Also make sure that our loop never goes outside the bounds of the image
-//                for(int yd = y; (yd < y + PIX_SIZE) && (yd < dest.getHeight()); yd++) {
-//                    for(int xd = x; (xd < x + PIX_SIZE) && (xd < dest.getWidth()); xd++) {
-//                        dest.setPixel(xd, yd, pixel);
-//                    }
-//                }
-//            }
-//        }
-//// Save the raster back to the Image
-//        img.setData(dest);
-//// Write the new file
-//        ImageIO.write(img, "jpg", new File(savePath  + File.separator + "px_"+ fileName));
-//        request.setAttribute("path", SAVE_DIR + File.separator + "px_" + fileName);
-//        getServletContext().getRequestDispatcher("/index.jsp").forward(
-//                request, response);
+        final int PIX_SIZE = 10;
+// Read the file as an Image
+        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
+// Get the raster data (array of pixels)
+        Raster src = img.getData();
+// Create an identically-sized output raster
+        WritableRaster dest = src.createCompatibleWritableRaster();
+// Loop through every PIX_SIZE pixels, in both x and y directions
+        for(int y = 0; y < src.getHeight(); y += PIX_SIZE) {
+            for(int x = 0; x < src.getWidth(); x += PIX_SIZE) {
+                // Copy the pixel
+                double[] pixel = new double[3];
+                pixel = src.getPixel(x, y, pixel);
+                // "Paste" the pixel onto the surrounding PIX_SIZE by PIX_SIZE neighbors
+                // Also make sure that our loop never goes outside the bounds of the image
+                for(int yd = y; (yd < y + PIX_SIZE) && (yd < dest.getHeight()); yd++) {
+                    for(int xd = x; (xd < x + PIX_SIZE) && (xd < dest.getWidth()); xd++) {
+                        dest.setPixel(xd, yd, pixel);
+                    }
+                }
+            }
+        }
+// Save the raster back to the Image
+        img.setData(dest);
+// Write the new file
+        ImageIO.write(img, "jpg", new File(savePath  + File.separator + "px_"+ fileName));
+        request.setAttribute("path", SAVE_DIR + File.separator + "px_" + fileName);
+        getServletContext().getRequestDispatcher("/index.jsp").forward(
+                request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

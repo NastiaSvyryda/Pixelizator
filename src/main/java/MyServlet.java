@@ -1,5 +1,6 @@
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 
 @WebServlet(name = "MyServlet")
@@ -23,19 +22,21 @@ import java.net.URL;
 public class MyServlet extends HttpServlet {
 
     private static final String SAVE_DIR = "uploadFiles";
+    String fileName;
+    String savePath;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doPost\n\n");
-        String fileName = null;
         // gets absolute path of the web application
         String appPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
-        String savePath = appPath + File.separator + SAVE_DIR;
+        savePath = appPath + File.separator + SAVE_DIR;
         // creates the save directory if it does not exists
         File fileSaveDir = new File(savePath);
 
         if (!fileSaveDir.exists())
             fileSaveDir.mkdir();
+        BufferedImage img = null;
         if (request.getParameter("text").length() == 0) {
             System.out.println("file\n\n");
             for (Part part : request.getParts()) {
@@ -43,26 +44,24 @@ public class MyServlet extends HttpServlet {
                     fileName = extractFileName(part);
                     System.out.println(fileName);
                     // refines the fileName in case it is an absolute path
-                    fileName = new File(fileName).getName();
+//                    fileName = new File(fileName).getName();
                     part.write(savePath + File.separator + fileName);
+                    img = ImageIO.read(new File(savePath + File.separator + fileName));
                 }
             }
         }
         else {
-            BufferedImage image = null;
             System.out.println("url\n\n");
             URL url = new URL(request.getParameter("text"));
             System.out.println(request.getParameter("text"));
-            image = ImageIO.read(url);
-            fileName = "pix.jpg";
-            System.out.println(savePath + File.separator + fileName);
-            ImageIO.write(image, "jpg",new File(savePath + File.separator + fileName));
+            img = ImageIO.read(url);
         }
-
-        final int PIX_SIZE = 10;
+        String size = request.getParameter("size");
+        final int PIX_SIZE = Integer.parseInt(size);
 // Read the file as an Image
-        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
+//        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
 // Get the raster data (array of pixels)
+        assert img != null;
         Raster src = img.getData();
 // Create an identically-sized output raster
         WritableRaster dest = src.createCompatibleWritableRaster();
@@ -88,11 +87,27 @@ public class MyServlet extends HttpServlet {
         request.setAttribute("path", SAVE_DIR + File.separator + "px_" + fileName);
         getServletContext().getRequestDispatcher("/index.jsp").forward(
                 request, response);
+//        ImageIO.write(img, "JPG", response.getOutputStream());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Enter doGet");
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+//        String pathToWeb = getServletContext().getRealPath(File.separator);
+//        File file = new File(pathToWeb + "uploadFiles/minion.jpg");
+//        BufferedImage image = ImageIO.read(file);
+//        ImageIO.write(image, "JPG", response.getOutputStream());
+
+
+//        response.setContentType("image/jpeg");
+//        String pathToWeb = getServletContext().getRealPath(File.separator);
+//        File f = new File(pathToWeb + "uploadFiles/minion.jpg");
+//        BufferedImage bi = ImageIO.read(f);
+//        OutputStream out = response.getOutputStream();
+//        ImageIO.write(bi, "jpg", out);
+//        out.close();
+
+//        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     private String extractFileName(Part part) {

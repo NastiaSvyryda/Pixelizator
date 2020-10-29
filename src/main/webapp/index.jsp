@@ -11,7 +11,18 @@
     <meta name="description" content="Pixelizator">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title id="name" >Pixelizator</title>
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5f9ad1924fa617001994479a&product=image-share-buttons" async="async"></script>
+<%--    FACEBOOK--%>
+<%--    <meta property="og:url"           content="http://localhost:8080/pixelizator/Pixelizator" />--%>
+<%--    <meta property="og:type"          content="image/jpeg" />--%>
+<%--    <meta property="og:title"         content="Your Website Title" />--%>
+<%--    <meta property="og:description"   content="Your description" />--%>
+<%--    <meta property="og:image"         content="${path}" />--%>
 </head>
+<link rel="stylesheet" href="mystyle.css">
+<script>
+
+</script>
 <body>
 <h1>Pixelizator</h1>
 <form method="post" enctype="multipart/form-data" action="Pixelizator">
@@ -23,50 +34,44 @@
     <label for="pixSize">select size of pixel</label>
     <input name="size" id="pixSize" type='number' min="0" value="10"/>
     <br>
-    <img id="Img" src="#" alt="your image" >
-    <br>
     <button type="submit">Pixelate</button>
+    <br>
+    <img id="Img" src="${path}" class="no-image" alt="your image" onclick="getUrl" >
+    <br>
 </form>
 <p>
     total size: <span id="fileSize">0 MiB</span>
 </p>
 <p>
-    pixelated image: <div id="path">${path}</div>
-<br>
-<img id="ImgPix" src="${path}" alt="your image" >
-<br>
+<a class="button" href="${path}" download="pixel.jpg">Download</a>
 </p>
 
-<%--<div class="canvas__container">--%>
-<%--    <canvas id="cnvs" class="canvas__canvas"></canvas>--%>
-<%--    <img src="${path}" id="mirror" class="canvas__mirror" />--%>
+<%--TELEGRAM--%>
+<%--<script async id="link" src="https://telegram.org/js/telegram-widget.js?12" data-telegram-share-url="" data-size="large">--%>
+<%--    &lt;%&ndash;function getUrl() {&ndash;%&gt;--%>
+<%--    &lt;%&ndash;    var link = document.getElementById("link");&ndash;%&gt;--%>
+<%--    &lt;%&ndash;     = URL.createObjectURL("${path}");&ndash;%&gt;--%>
+<%--    &lt;%&ndash;}&ndash;%&gt;--%>
+<%--</script>--%>
+
+<%--FACEBOOK--%>
+<%--<div id="fb-root"></div>--%>
+<%--<script>(function(d, s, id) {--%>
+<%--    var js, fjs = d.getElementsByTagName(s)[0];--%>
+<%--    if (d.getElementById(id)) return;--%>
+<%--    js = d.createElement(s); js.id = id;--%>
+<%--    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";--%>
+<%--    fjs.parentNode.insertBefore(js, fjs);--%>
+<%--}(document, 'script', 'facebook-jssdk'));</script>--%>
+
+<%--<!-- Your share button code -->--%>
+<%--<div class="fb-share-button"--%>
+<%--     data-href="${path}"--%>
+<%--     data-layout="button_count">--%>
 <%--</div>--%>
-
-<%--<a href="#" class="button" id="btn-download" download="my-file-name.png">Download</a>--%>
-
-
-<%--<img src="Pixelizator?word=value">the rest</img>--%>
 
 
 <script>
-    // var cnvs = document.getElementById('cnvs'),
-    //     ctx = cnvs.getContext('2d'),
-    //     mirror = document.getElementById('mirror');
-    //
-    //
-    // cnvs.width = mirror.width = window.innerWidth;
-    // cnvs.height = mirror.height = window.innerHeight;
-    // mirror.addEventListener('contextmenu', function (e) {
-    //     var dataURL = canvas.toDataURL('image/png');
-    //     mirror.src = dataURL;
-    // });
-    // var button = document.getElementById('btn-download');
-    // button.addEventListener('click', function (e) {
-    //     var dataURL = canvas.toDataURL('image/png');
-    //     button.href = dataURL;
-    // });
-
-
     window.addEventListener('load', function() {
         document.getElementById("file").addEventListener('change', function() {
             if (this.files && this.files[0]) {

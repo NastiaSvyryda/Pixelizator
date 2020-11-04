@@ -23,83 +23,23 @@ public class MyServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doPost\n\n");
+        System.out.println(request.getParameter("type"));
         System.out.println(request.getParameter("file"));
         System.out.println(request.getParameter("fileUrl"));
         System.out.println(request.getParameter("pixSize"));
-        String fileName = null;
-        // gets absolute path of the web application
-        String appPath = request.getServletContext().getRealPath("");
-//        // constructs path of the directory to save uploaded file
-        String savePath = appPath + File.separator + SAVE_DIR;
-//        // creates the save directory if it does not exists
+
+        String savePath = request.getServletContext().getRealPath("") + File.separator + SAVE_DIR;
         File fileSaveDir = new File(savePath);
-//
         if (!fileSaveDir.exists())
             fileSaveDir.mkdir();
-
-        BufferedImage img = null;
-        if (request.getParameter("fileUrl").length() == 0) {
-            System.out.println("file\n\n");
-            Part part = request.getPart("file");
-            if (extractFileName(part).length() != 0) {
-                fileName = extractFileName(part);
-                System.out.println(fileName);
-                fileName = new File(fileName).getName();
-                part.write(savePath + File.separator + fileName);
-                img = ImageIO.read(new File(savePath + File.separator + fileName));
-            }
-        }
-        else {
-            fileName = "pixel.jpg";
-            System.out.println("url\n\n");
-            URL url = new URL(request.getParameter("fileUrl"));
-            System.out.println(request.getParameter("fileUrl"));
-            img = ImageIO.read(url);
-        }
-
-        String size = request.getParameter("pixSize");
-        final int pixSize = Integer.parseInt(size);
-// Read the file as an Image
-//        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
-// Get the raster data (array of pixels)
-        assert img != null;
-        Raster src = img.getData();
-// Create an identically-sized output raster
-        WritableRaster dest = src.createCompatibleWritableRaster();
-// Loop through every PIX_SIZE pixels, in both x and y directions
-        for(int y = 0; y < src.getHeight(); y += pixSize) {
-            for(int x = 0; x < src.getWidth(); x += pixSize) {
-                // Copy the pixel
-                double[] pixel = new double[3];
-                pixel = src.getPixel(x, y, pixel);
-                // "Paste" the pixel onto the surrounding PIX_SIZE by PIX_SIZE neighbors
-                // Also make sure that our loop never goes outside the bounds of the image
-                for(int yd = y; (yd < y + pixSize) && (yd < dest.getHeight()); yd++) {
-                    for(int xd = x; (xd < x + pixSize) && (xd < dest.getWidth()); xd++) {
-                        dest.setPixel(xd, yd, pixel);
-                    }
-                }
-            }
-        }
-// Save the raster back to the Image
-        img.setData(dest);
-// Write the new file
-        ImageIO.write(img, "jpg", new File(savePath  + File.separator + "px_"+ fileName));
-
-        String content = SAVE_DIR + File.separator + "px_" + fileName;
-        System.out.println(content);
+        ImageController controller = new ImageController(request, savePath, request.getParameter("type"));
+        BufferedImage img = controller.getImage();
+        Pixelizator pixel = new Pixelizator(Integer.parseInt(request.getParameter("pixSize")), img);
+        pixel.pixelization(controller.getName(), savePath);
         response.setContentType("text/plain");
         OutputStream outStream = response.getOutputStream();
-        outStream.write(content.getBytes(StandardCharsets.UTF_8));
+        outStream.write(pixel.getPathOfImage().getBytes(StandardCharsets.UTF_8));
         outStream.flush();
         outStream.close();
-    }
-
-    private String extractFileName(Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename"))
-                return content.substring(content.indexOf("=") + 2, content.length() - 1);
-        }
-        return "";
     }
 }

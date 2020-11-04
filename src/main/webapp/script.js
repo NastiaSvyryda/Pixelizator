@@ -1,11 +1,20 @@
 $(document).ready(function() {
     $('form').submit(function(event) {
         event.preventDefault();
+        var data = new FormData(this);
+        if ($('#file').val().length !== 0) {
+            console.log("file");
+            data.append("type", "file");
+        }
+        if ($('#fileUrl').val().length !== 0) {
+            console.log("fileUrl");
+            data.append("type", "url");
+        }
         // Calling AJAX
         $.ajax({
             url : $(this).attr('action'),
             type : $(this).attr('method'),
-            data : new FormData(this),
+            data : data,
             contentType : false,
             cache : false,
             processData : false,

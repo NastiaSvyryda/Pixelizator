@@ -17,8 +17,6 @@ public class Pixelizator {
     }
 
     public void pixelization(String fileName, String savePath) throws IOException {
-        // Read the file as an Image
-//        BufferedImage img = ImageIO.read(new File(savePath + File.separator + fileName));
 // Get the raster data (array of pixels)
         assert img != null;
         Raster src = img.getData();
@@ -44,8 +42,9 @@ public class Pixelizator {
 // Write the new file
         ImageIO.write(img, "jpg", new File(savePath  + File.separator + "px_"+ fileName));
 
-        String content = SAVE_DIR + File.separator + "px_" + fileName;
+        imgPath = SAVE_DIR + File.separator + "px_" + fileName;
     }
+
     public String getPathOfImage() {
         return imgPath;
     }

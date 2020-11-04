@@ -1,16 +1,11 @@
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @WebServlet(name = "MyServlet")
@@ -35,10 +30,14 @@ public class MyServlet extends HttpServlet {
         ImageController controller = new ImageController(request, savePath, request.getParameter("type"));
         BufferedImage img = controller.getImage();
         Pixelizator pixel = new Pixelizator(Integer.parseInt(request.getParameter("pixSize")), img);
-        pixel.pixelization(controller.getName(), savePath);
+        pixel.pixelateImg(controller.getName(), savePath);
+        sendResponse(response, pixel.getPathOfImage());
+    }
+
+    private void sendResponse(HttpServletResponse response, String content) throws IOException {
         response.setContentType("text/plain");
         OutputStream outStream = response.getOutputStream();
-        outStream.write(pixel.getPathOfImage().getBytes(StandardCharsets.UTF_8));
+        outStream.write(content.getBytes(StandardCharsets.UTF_8));
         outStream.flush();
         outStream.close();
     }

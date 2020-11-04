@@ -9,9 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ImageController {
-    BufferedImage img;
-    String fileName;
-    String savePath;
+    private BufferedImage img;
+    private String fileName;
+    private final String savePath;
 
     public ImageController(HttpServletRequest request,String savePath, String type) throws IOException, ServletException {
         this.savePath = savePath;
@@ -37,6 +37,7 @@ public class ImageController {
         System.out.println(imgUrl);
         img = ImageIO.read(url);
     }
+
     public BufferedImage getImage() {
         return img;
     }

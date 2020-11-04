@@ -24,17 +24,20 @@ $(document).ready(function() {
                 document.getElementById("NewImg").src = response;
                 console.log(document.getElementById("NewImg").src);
                 document.getElementById("downloadButtons").style.display = "initial";
-                document.getElementById("downloadJpg").href = response;
-                document.getElementById("downloadPng").href = response;
-                document.getElementById("downloadWebp").href = response;
-                document.getElementById("downloadBmp").href = response;
+                var btns = document.getElementsByClassName("button");
+                    for (var i = 0; i < btns.length; i++)
+                        btns[i].href = response;
+                // document.getElementById("downloadJpg").href = response;
+                // document.getElementById("downloadPng").href = response;
+                // document.getElementById("downloadWebp").href = response;
+                // document.getElementById("downloadBmp").href = response;
             }
         });
         return false;
     });
 
     document.getElementById("file").addEventListener('change', function() {
-        if (this.files && this.files[0]) {
+        if (this.files && this.files[0] && this.files[0].name.match(/\.(jpg|jpeg)$/)) {
             var image = document.getElementById("Img");  // $('img')[0]
             image.src = URL.createObjectURL(this.files[0]); // set src to blob url
             var img= this.files[0].size;
@@ -45,6 +48,7 @@ $(document).ready(function() {
             document.getElementById("divImage").style.display = "initial";
             document.getElementById("downloadButtons").style.display = "none";
         }
+        else alert('This is not jpg file!');
     });
 
     document.getElementById("fileUrl").addEventListener('change', function() {
@@ -53,12 +57,14 @@ $(document).ready(function() {
         downloadingImage.onload = function() {
             image.src = this.src;
         };
-        if (document.getElementById("fileUrl").value != null) {
-            downloadingImage.src = document.getElementById("fileUrl").value;
+        var name = document.getElementById("fileUrl").value;
+        if (name != null && name.match(/\.(jpeg|jpg)$/)) { //&& name.match(/\.(jpg|jpeg)$/)
+            downloadingImage.src = name;
             document.getElementById("file").value = null;
             document.getElementById("divImage").style.display = "initial";
             document.getElementById("downloadButtons").style.display = "none";
         }
+        else alert('This is not jpg file!');
 
         // var img = downloadingImage.files[0].size;
         // var imgsize=img/1024;

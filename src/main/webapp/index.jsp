@@ -17,37 +17,44 @@
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5f9ad1924fa617001994479a&product=image-share-buttons" async="async"></script>
 </head>
 <body>
-<h1>Pixelizator</h1>
-<form action="Pixelizator"
-      method="post"
-      enctype="multipart/form-data">
-    <label for="file">Download by file</label>
-    <input name="file" id="file" type="file" accept="image/*">
-    <br>
-    <label for="fileUrl">Download by url</label>
-    <input name="fileUrl" id="fileUrl" type='text' />
-    <br>
-    <label for="pixSize">Select size of pixel</label>
-    <input name="pixSize" id="pixSize" type='number' min="0" value="10"/>
-    <br>
-    <div id="divImage" style ="display:none">
-        <button id="submit" type="submit" value="Upload" >Pixelate</button>
+    <h1>Pixelizator</h1>
+    <form action="Pixelizator"
+        method="post"
+        enctype="multipart/form-data">
+        <div class="center">
+<%--            <p class="element">--%>
+            <label for="file">Download by file</label>
+            <input class="element" name="file" id="file" type="file" accept="image/*">
+<%--            </p>--%>
+<%--            <p class="element">--%>
+            <label for="fileUrl">Download by url</label>
+            <input class="element" name="fileUrl" id="fileUrl" type='text' />
+<%--            </p>--%>
+        </div>
         <br>
-        <img id="Img" src="" class="no-image" alt="your image">
+        <div class="center">
+            <label for="pixSize">Select size of pixel</label>
+            <input name="pixSize" id="pixSize" type='number' min="0" value="10"/>
+        </div>
         <br>
-        <p>
-            Total size: <span id="fileSize">0 MiB</span>
-        </p>
+        <div id="divImage" style ="display:none">
+            <button id="submit" type="submit" value="Upload" >Pixelate</button>
+            <br>
+            <img id="Img" src="" class="no-image" alt="your image">
+            <br>
+            <p>
+                Total size: <span id="fileSize">0 MiB</span>
+            </p>
+        </div>
+    </form>
+    <div id="downloadButtons" style ="display:none">
+        <img id="NewImg" src="" class="no-image" alt="your image">
+        <br>
+        Download as:
+        <a id="downloadJpg" class="button" href="" download="pixel.jpg">jpg</a>
+        <a id="downloadPng" class="button" href="" download="pixel.png">png</a>
+        <a id="downloadWebp" class="button" href="" download="pixel.webp">webp</a>
+        <a id="downloadBmp" class="button" href="" download="pixel.bmp">bmp</a>
     </div>
-</form>
-<div id="downloadButtons" style ="display:none">
-    <img id="NewImg" src="" class="no-image" alt="your image">
-    <br>
-    Download as:
-    <a id="downloadJpg" class="button" href="" download="pixel.jpg">jpg</a>
-    <a id="downloadPng" class="button" href="" download="pixel.png">png</a>
-    <a id="downloadWebp" class="button" href="" download="pixel.webp">webp</a>
-    <a id="downloadBmp" class="button" href="" download="pixel.bmp">bmp</a>
-</div>
 </body>
 </html>

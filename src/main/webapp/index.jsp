@@ -14,28 +14,19 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="mystyle.css">
-<%--    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5f9ad1924fa617001994479a&product=image-share-buttons" async="async"></script>--%>
 </head>
 <body>
     <h1>Pixelizator</h1>
     <form action="Pixelizator"
         method="post"
         enctype="multipart/form-data" class="center">
-<%--        <div class="center">--%>
-<%--            <p class="element">--%>
             <label for="file">Download by file</label>
             <input class="element" name="file" id="file" type="file" accept="image/*">
-<%--            </p>--%>
-<%--            <p class="element">--%>
             <label for="fileUrl">Download by url</label>
             <input class="element" name="fileUrl" id="fileUrl" type='text' />
-<%--            </p>--%>
-<%--        </div>--%>
         <br>
-<%--        <div class="center">--%>
             <label for="pixSize">Select size of pixel</label>
             <input name="pixSize" id="pixSize" type='number' min="0" value="10"/>
-<%--        </div>--%>
         <br>
         <div id="divImage" style ="display:none">
             <img id="Img" src="" style="max-width: 80%" alt="your image">

@@ -7,7 +7,7 @@ Build the project with `mvn clean package` command.
 ## Installation
 Run the project with `mvn tomcat7:run` command.
 
-![alt text](https://github.com/NastiaSvyryda/Pixelizator/blob/main/src/main/resources/Знімок%20екрана%20%20о%2012.26.23.png)
+![alt text](https://github.com/NastiaSvyryda/Pixelizator/blob/main/src/main/resources/Pixelizator.jpg)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

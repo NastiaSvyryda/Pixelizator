@@ -17,12 +17,6 @@ public class MyServlet extends HttpServlet {
     private static final String SAVE_DIR = "uploadFiles";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("doPost\n\n");
-        System.out.println(request.getParameter("type"));
-        System.out.println(request.getParameter("file"));
-        System.out.println(request.getParameter("fileUrl"));
-        System.out.println(request.getParameter("pixSize"));
-
         String savePath = request.getServletContext().getRealPath("") + File.separator + SAVE_DIR;
         File fileSaveDir = new File(savePath);
         if (!fileSaveDir.exists())

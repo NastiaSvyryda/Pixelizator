@@ -22,9 +22,7 @@ public class ImageController {
     }
 
     private void makeImage(Part part) throws IOException {
-        System.out.println("file\n\n");
         fileName = extractFileName(part);
-        System.out.println(fileName);
         fileName = new File(fileName).getName();
         part.write(savePath + File.separator + fileName);
         img = ImageIO.read(new File(savePath + File.separator + fileName));
@@ -32,9 +30,7 @@ public class ImageController {
 
     private void makeImage(String imgUrl) throws IOException {
         fileName = "pixel.jpg";
-        System.out.println("url\n\n");
         URL url = new URL(imgUrl);
-        System.out.println(imgUrl);
         img = ImageIO.read(url);
     }
 

@@ -2,14 +2,10 @@ $(document).ready(function() {
     $('form').submit(function(event) {
         event.preventDefault();
         var data = new FormData(this);
-        if ($('#file').val().length !== 0) {
-            console.log("file");
+        if ($('#file').val().length !== 0)
             data.append("type", "file");
-        }
-        if ($('#fileUrl').val().length !== 0) {
-            console.log("fileUrl");
+        if ($('#fileUrl').val().length !== 0)
             data.append("type", "url");
-        }
         // Calling AJAX
         $.ajax({
             url : $(this).attr('action'),
@@ -20,17 +16,11 @@ $(document).ready(function() {
             processData : false,
             success : function(response) {
                 // обработка ответа от сервера
-                console.log(response);
                 document.getElementById("NewImg").src = response;
-                console.log(document.getElementById("NewImg").src);
                 document.getElementById("downloadButtons").style.display = "initial";
                 var btns = document.getElementsByClassName("button");
                     for (var i = 0; i < btns.length; i++)
                         btns[i].href = response;
-                // document.getElementById("downloadJpg").href = response;
-                // document.getElementById("downloadPng").href = response;
-                // document.getElementById("downloadWebp").href = response;
-                // document.getElementById("downloadBmp").href = response;
             }
         });
         return false;

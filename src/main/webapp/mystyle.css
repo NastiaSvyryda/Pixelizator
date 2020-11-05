@@ -1,25 +1,10 @@
-* {
-    font-family: Monaco, monospace;
-    font-weight: bold;
-}
-h1 {
-    text-align:center;
-}
-/*#inputDiv {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*    align-content: center;*/
-/*    position: absolute;*/
-
-/*}*/
-
-/*.center {*/
-/*    text-align: center;*/
-/*    display: block;*/
-/*    margin-left: auto;*/
-/*    margin-right: auto;*/
-/*}*/
-
+    * {
+        font-family: Monaco, monospace;
+        font-weight: bold;
+    }
+    h1 {
+        text-align:center;
+    }
     .center {
         text-align: center;
         display: block;
@@ -27,18 +12,10 @@ h1 {
         margin-right: auto;
         /*background-color: aqua;*/
     }
-/*z*/
-@media screen and (max-width: 820px) {
-    .element {
-        width : 73%;
-        min-width: 400px; /* Минимальная ширина блока */
-        margin : auto 15%;
+    @media screen and (max-width: 820px) {
+        .element {
+            width : 73%;
+            min-width: 400px; /* Минимальная ширина блока */
+            margin : auto 15%;
+        }
     }
-/*    .center {*/
-/*        text-align: center;*/
-/*        display: block;*/
-/*        margin-left: auto;*/
-/*        margin-right: auto;*/
-/*        float: left;*/
-/*    }*/
-}
